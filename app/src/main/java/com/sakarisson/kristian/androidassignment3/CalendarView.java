@@ -36,4 +36,16 @@ public final class CalendarView extends View {
         canvas.drawColor(Color.LTGRAY);
         canvas.drawBitmap(background, 0, 0, null);
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int minw = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
+        int w = resolveSizeAndState(minw - background.getWidth(), widthMeasureSpec, 1);
+
+        int minh = MeasureSpec.getSize(w) - getPaddingBottom() + getPaddingTop();
+        int h = resolveSizeAndState(MeasureSpec.getSize(w) - background.getHeight(), heightMeasureSpec, 0);
+
+        setMeasuredDimension(w, h);
+    }
 }
