@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 public final class CalendarView extends View {
     private Bitmap background;
+    private Bitmap scaledBackground;
     private ImageView mImageView;
     private Context mContext;
 
@@ -33,19 +34,14 @@ public final class CalendarView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        scaledBackground = Bitmap.createScaledBitmap(background, canvas.getWidth(), canvas.getHeight(), true);
         canvas.drawColor(Color.LTGRAY);
-        canvas.drawBitmap(background, 0, 0, null);
+        canvas.drawBitmap(scaledBackground, 0, 0, null);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int minw = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
-        int w = resolveSizeAndState(minw - background.getWidth(), widthMeasureSpec, 1);
-
-        int minh = MeasureSpec.getSize(w) - getPaddingBottom() + getPaddingTop();
-        int h = resolveSizeAndState(MeasureSpec.getSize(w) - background.getHeight(), heightMeasureSpec, 0);
-
-        setMeasuredDimension(w, h);
+        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 }
