@@ -9,8 +9,8 @@
 
     <com.sakarisson.kristian.androidassignment3.CalendarView
         android:id="@+id/calendarView5"
-        android:layout_width="327dp"
-        android:layout_height="213dp"
+        android:layout_width="204dp"
+        android:layout_height="229dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
