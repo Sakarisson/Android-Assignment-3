@@ -1,14 +1,11 @@
 package com.sakarisson.kristian.androidassignment3;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.Layout;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,12 +16,19 @@ import java.util.Calendar;
 public final class CalendarView extends View {
     private Bitmap background;
     private Calendar mCalendar;
-    private int minSize = 500;
+    private OnClickListener clickHandler = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mCalendar.add(Calendar.DATE, 1);
+            invalidate();
+        }
+    };
 
     public CalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mCalendar = Calendar.getInstance();
         background = BitmapFactory.decodeResource(context.getResources(), R.drawable.calendar_sheet);
+        this.setOnClickListener(clickHandler);
     }
 
     // Get the name of the month from Calendar.MONTH
@@ -33,9 +37,7 @@ public final class CalendarView extends View {
         String month = "";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
-        if (number >= 1 && number <= 12 ) {
-            month = months[number - 1];
-        }
+            month = months[number];
         return month;
     }
 
@@ -43,9 +45,7 @@ public final class CalendarView extends View {
         String day = "";
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] days = dfs.getWeekdays();
-        if (number >= 1 && number <= 7 ) {
-            day = days[number - 1];
-        }
+        day = days[number];
         return day;
     }
 
@@ -85,11 +85,8 @@ public final class CalendarView extends View {
         canvas.drawColor(Color.LTGRAY);
         canvas.drawBitmap(generateScaledBackground(canvas.getWidth(), canvas.getHeight()), 0, 0, null);
 
-        TextPaint test = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
-        test.setColor(Color.parseColor("#ff00ff"));
-        test.setTextSize(30);
-        drawMonthText(canvas, getMonthFromInt(mCalendar.MONTH));
-        drawDayNumberText(canvas, mCalendar.DAY_OF_MONTH);
-        drawDayOfWeekText(canvas, getDayOfWeekFromInt(mCalendar.DAY_OF_WEEK));
+        drawMonthText(canvas, getMonthFromInt(mCalendar.get(Calendar.MONTH)));
+        drawDayNumberText(canvas, mCalendar.get(Calendar.DAY_OF_MONTH));
+        drawDayOfWeekText(canvas, getDayOfWeekFromInt(mCalendar.get(Calendar.DAY_OF_WEEK)));
     }
 }
